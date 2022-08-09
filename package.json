@@ -1,0 +1,25 @@
+{
+  "name": "wordle-solver",
+  "version": "1.0.0",
+  "description": "A wordle solver with inversion of control and tests",
+  "homepage": "https://github.com/evantheenginr/wordle-solver",
+  "main": "index.js",
+  "keywords": [
+    "wordle",
+    "web automation example",
+    "ioc test automation example"
+  ],
+  "scripts": {
+    "dev": "node ./dev.js",
+    "test": "jest"
+  },
+  "author": "Evan Edwards <er@sdraw.de>",
+  "license": "CC0",
+  "dependencies": {
+    "plus.container": "^1.1.16",
+    "puppeteer": "^15.5.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
+  }
+}

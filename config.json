@@ -1,0 +1,33 @@
+{
+    "prod": {
+        "solver": {
+            "WordList":"./valid-wordle-words.json",
+            "LetterScoreAlgorithm":"STATIC_LINEAR_FULL_LANGUAGE"
+        },
+        "automator": {
+            "URL":"https://www.nytimes.com/games/wordle/index.html",
+            "Headless":false,
+            "PageWait":"networkidle0",
+            "CloseHowToPlay":"#wordle-app-game > div > div > div > svg",
+            "MainBoard":"#wordle-app-game",
+            "NthRowLastLetter":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div:nth-child(5) > div:nth-child(1)[data-animation='idle']:not([data-state='tbd']):not([data-state='empty'])",
+            "NthRowAllLetters":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div > div",
+            "LetterStateAttribute":"data-state",
+            "ScreenshotPath":"./results/wordle-%s-%s-%s-%s-%s.png"
+        },
+        "logger": {
+            "level":1
+        }
+    },
+    "test": {
+        "solver": {
+            
+        },
+        "automator": {
+            
+        },
+        "logger": {
+            "level":0
+        }
+    }
+}
