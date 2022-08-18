@@ -19,14 +19,16 @@ const WordleLogger = require('./WordleLogger')
 const WordleResult = require('./WordleResult')
 const WordleConfig = require('./config.json')
 
-const WordleMockAutomator = require('./WordleMockAutomator')
+const WordleMockAutomator = require('./WordleMockAutomator');
+const WordleShare = require('./WordleShare');
 
 class Wordle {
     constructor(){
         this.ioc = new Container()
         this.ioc.register('config', WordleConfig)
+        this.ioc.register('WordleShare', WordleShare)
         this.ioc.register('WordleLogger', WordleLogger, ['config/prod/logger'])
-        this.ioc.register('WordleWebAutomator', WordleWebAutomator, ['config/prod/automator', WordleLogger.name])
+        this.ioc.register('WordleWebAutomator', WordleWebAutomator, ['config/prod/automator', WordleShare.name, WordleLogger.name])
         this.ioc.register('WordleSolver', WordleSolver, ['config/prod/solver', WordleWebAutomator.name, WordleLogger.name])
         this.ioc.register('WordleResult', WordleResult, [])
     }

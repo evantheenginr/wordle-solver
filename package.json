@@ -7,15 +7,18 @@
   "keywords": [
     "wordle",
     "web automation example",
-    "ioc test automation example"
+    "ioc test automation example",
+    "educational"
   ],
   "scripts": {
-    "dev": "node ./dev.js",
+    "today": "node ./today.js",
     "test": "jest"
   },
   "author": "Evan Edwards <er@sdraw.de>",
-  "license": "CC0",
+  "license": "CC0-1.0",
   "dependencies": {
+    "node-clipboardy": "^1.0.3",
+    "npm": "^8.17.0",
     "plus.container": "^1.1.16",
     "puppeteer": "^15.5.0"
   },

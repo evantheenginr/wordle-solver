@@ -13,6 +13,7 @@
  */
 
 const util = require('node:util')
+const fs = require('node:fs/promises')
 const puppeteer = require('puppeteer')
 
 /** 
@@ -22,11 +23,11 @@ module.exports = class WordleWebAutomator {
 
    /**
     * Constructor for the WordleWebAutomator class
-    * @async
     * @param {Object} Config for the automator loaded from JSON including the selectors for the web elements
     */
-    constructor(config, logger){
+    constructor(config, share, logger){
         this.config = config
+        this.share = share
         this.log = logger
     }
 
@@ -35,10 +36,11 @@ module.exports = class WordleWebAutomator {
      * @async
      */
     async open(){
-        this.browser = await puppeteer.launch({ headless: this.config.Headless });
+        this.browser = await puppeteer.launch(this.config.LaunchOptions);
         this.page = (await this.browser.pages())[0]
-        await this.page.goto(this.config.URL, { waitUntil: this.config.PageWait });
-        await this.page.click(this.config.CloseHowToPlay)
+        await this.page.goto(this.config.URL, this.config.GotoOptions)
+        await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
+        await this.page.waitForSelector(this.config.MainBoard)
     }
 
     /**
@@ -48,8 +50,8 @@ module.exports = class WordleWebAutomator {
      */
     async typeWord(guess){
         await this.page.click(this.config.MainBoard)
-        await this.page.keyboard.type(guess, {delay: 100});
-        await this.page.keyboard.press('Enter') 
+        await this.page.keyboard.type(guess, this.config.InteractionOptions)
+        await this.page.keyboard.press('Enter', this.config.InteractionOptions) 
     }
     
     /**
@@ -60,7 +62,10 @@ module.exports = class WordleWebAutomator {
      */
     async getResults(tries){
         await this.page.waitForSelector(util.format(this.config.NthRowLastLetter, tries))
-        return await this.page.$$eval(util.format(this.config.NthRowAllLetters, tries), (divs, attr) => divs.map(div => div.getAttribute(attr) ), this.config.LetterStateAttribute)  
+        const result = await this.page.$$eval(util.format(this.config.NthRowAllLetters, tries), (divs, attr) => divs.map(div => div.getAttribute(attr) ), this.config.LetterStateAttribute)  
+        this.share.save(result)
+        return result
+
     }
 
     /**
@@ -74,9 +79,10 @@ module.exports = class WordleWebAutomator {
     async finished(win, guess, tries, time){
         const ts = new Date().getTime()
         const outcome = win?"win":"loss"
-        const path = util.format(this.config.ScreenshotPath, ts, outcome, tries, guess, time)
-        this.log.log(`saving screenshot to ${path}`)
-        await this.page.screenshot({ path, fullPage: true });
+        const path = util.format(this.config.OutputPath, ts, outcome, tries, guess, time)
+        this.log.log(`saving output to ${path}`)
+        fs.writeFile(path.concat(".txt"), this.share.share(win, tries, time))
+        await this.page.screenshot({ path: path.concat(".png"), fullPage: true });
         await this.browser.close()
     }
 }

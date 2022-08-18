@@ -6,14 +6,22 @@
         },
         "automator": {
             "URL":"https://www.nytimes.com/games/wordle/index.html",
-            "Headless":false,
-            "PageWait":"networkidle0",
-            "CloseHowToPlay":"#wordle-app-game > div > div > div > svg",
-            "MainBoard":"#wordle-app-game",
+            "Origin":"https://www.nytimes.com",
+            "LaunchOptions":{
+                "headless":true,
+                "product":"chrome"
+            },
+            "GotoOptions":{
+                "waitUntil": "networkidle0"
+            },
+            "InteractionOptions":{"delay": 160},
+            "CloseDialog":"#wordle-app-game > div > div > div > svg",
+            "MainBoard":"#wordle-app-game > div > div",
             "NthRowLastLetter":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div:nth-child(5) > div:nth-child(1)[data-animation='idle']:not([data-state='tbd']):not([data-state='empty'])",
             "NthRowAllLetters":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div > div",
+            "ShareButton":"#share-button",
             "LetterStateAttribute":"data-state",
-            "ScreenshotPath":"./results/wordle-%s-%s-%s-%s-%s.png"
+            "OutputPath":"./results/wordle-%s-%s-%s-%s-%s"
         },
         "logger": {
             "level":1
