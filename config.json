@@ -8,15 +8,15 @@
             "URL":"https://www.nytimes.com/games/wordle/index.html",
             "Origin":"https://www.nytimes.com",
             "LaunchOptions":{
-                "headless":true,
+                "headless":false,
                 "product":"chrome"
             },
             "GotoOptions":{
                 "waitUntil": "networkidle0"
             },
             "InteractionOptions":{"delay": 160},
-            "CloseDialog":"#wordle-app-game > div > div > div > svg",
-            "MainBoard":"#wordle-app-game > div > div",
+            "CloseDialog":"dialog[aria-label='help Modal'] > div > button > svg",
+            "MainBoard":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(5) > div:nth-child(1)[data-state='empty']:not([data-state='tbd'])",
             "NthRowLastLetter":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div:nth-child(5) > div:nth-child(1)[data-animation='idle']:not([data-state='tbd']):not([data-state='empty'])",
             "NthRowAllLetters":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div > div",
             "ShareButton":"#share-button",

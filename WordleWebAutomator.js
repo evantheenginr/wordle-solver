@@ -49,7 +49,7 @@ module.exports = class WordleWebAutomator {
      * @param {string} guess - The guess to be typed
      */
     async typeWord(guess){
-        await this.page.click(this.config.MainBoard)
+        await this.page.click(this.config.MainBoard, this.config.InteractionOptions)
         await this.page.keyboard.type(guess, this.config.InteractionOptions)
         await this.page.keyboard.press('Enter', this.config.InteractionOptions) 
     }

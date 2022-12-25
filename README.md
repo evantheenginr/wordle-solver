@@ -27,8 +27,8 @@ $ npm install
 # Run the tests
 $ npm run test
 
-# Run the application
-$ npm run dev
+# Run aginst Wordle of the day
+$ npm run today
 ```
 
 ## Other Reading/Links
