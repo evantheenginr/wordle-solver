@@ -39,6 +39,8 @@ module.exports = class WordleWebAutomator {
         this.browser = await puppeteer.launch(this.config.LaunchOptions);
         this.page = (await this.browser.pages())[0]
         await this.page.goto(this.config.URL, this.config.GotoOptions)
+        await this.page.click(this.config.PlayButton, this.config.InteractionOptions)
+        await new Promise(resolve => setTimeout(resolve, this.config.DialogWaitTime))
         await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
         await this.page.waitForSelector(this.config.MainBoard)
     }

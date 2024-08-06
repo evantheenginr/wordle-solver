@@ -14,8 +14,10 @@
             "GotoOptions":{
                 "waitUntil": "networkidle0"
             },
+            "DialogWaitTime": 160,
             "InteractionOptions":{"delay": 160},
-            "CloseDialog":"dialog[aria-label='help Modal'] > div > button > svg",
+            "PlayButton":"button[data-testid='Play']",
+            "CloseDialog":"dialog[aria-label='help Modal'] > div > div > button > svg",
             "MainBoard":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(5) > div:nth-child(1)[data-state='empty']:not([data-state='tbd'])",
             "NthRowLastLetter":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div:nth-child(5) > div:nth-child(1)[data-animation='idle']:not([data-state='tbd']):not([data-state='empty'])",
             "NthRowAllLetters":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div > div",
