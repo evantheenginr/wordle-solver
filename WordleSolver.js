@@ -71,7 +71,7 @@ module.exports = class WordleSolver {
         for(let tries = 1; tries < 7; tries++) {
             const guess = this.solve()
             this.log.debug(`next guess to be entered is: ${guess}`)            
-            await this.automator.typeWord(guess) 
+            await this.automator.typeWord(guess, tries) 
             const results = await this.automator.getResults(tries)
             this.check(guess, results)
             const win = results.every(result => result==='correct')

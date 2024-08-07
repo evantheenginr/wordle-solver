@@ -40,7 +40,7 @@ module.exports = class WordleMockAutomator {
      * @async
      * @param {string} guess 
      */
-    async typeWord(guess){
+    async typeWord(guess, tries){
         this.guess = guess.toLowerCase()
     }
 

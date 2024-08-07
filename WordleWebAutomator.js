@@ -38,22 +38,42 @@ module.exports = class WordleWebAutomator {
     async open(){
         this.browser = await puppeteer.launch(this.config.LaunchOptions);
         this.page = (await this.browser.pages())[0]
-        await this.page.goto(this.config.URL, this.config.GotoOptions)
+        await Promise.all([
+            this.page.waitForNavigation(),
+            await this.page.goto(this.config.URL, this.config.GotoOptions)
+        ])
         await this.page.click(this.config.PlayButton, this.config.InteractionOptions)
-        await new Promise(resolve => setTimeout(resolve, this.config.DialogWaitTime))
-        await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
-        await this.page.waitForSelector(this.config.MainBoard)
+        await Promise.all([
+            await this.page.waitForSelector(this.config.MainBoard),
+            await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
+        ])
     }
 
     /**
      * Type the guess into the Wordle Web Application
      * @async
      * @param {string} guess - The guess to be typed
+     * @param {number} tries - The try number
      */
-    async typeWord(guess){
-        await this.page.click(this.config.MainBoard, this.config.InteractionOptions)
-        await this.page.keyboard.type(guess, this.config.InteractionOptions)
+    async typeWord(guess, tries){
+        for(let i = 0; i < guess.length; i++){
+            await this.typeLetter(guess[i], tries, i+1)
+        }
         await this.page.keyboard.press('Enter', this.config.InteractionOptions) 
+    }
+
+    /**
+     * Type each letter of the guess into the Wordle Web Application and validate the state of the letter
+     * @async
+     * @param {string} guess - The guess to be typed
+     * @param {number} tries - The try number
+     * @param {number} position - The position of the letter in the guess
+     */
+    async typeLetter(letter, tries, position){
+        await this.page.waitForSelector(util.format(this.config.NthRowNthLetterState, tries, position, 'empty')),
+        await this.page.click(this.config.MainBoard, this.config.InteractionOptions)
+        await this.page.keyboard.type(letter, this.config.InteractionOptions)
+        await this.page.waitForSelector(util.format(this.config.NthRowNthLetterState, tries, position, 'tbd'))
     }
     
     /**

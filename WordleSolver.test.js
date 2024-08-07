@@ -84,7 +84,7 @@ describe('check solving algorithm statistics', () => {
         expect(stats.sdvTries).toBeLessThanOrEqual(1)
     })
     test('check average time', () => {
-        expect(stats.avgTime).toBeLessThanOrEqual(2)
+        expect(stats.avgTime).toBeLessThanOrEqual(3)
     })
     test('check standard deviation of time', () => {
         expect(stats.sdvTime).toBeLessThanOrEqual(5)

@@ -2,7 +2,7 @@
     "prod": {
         "solver": {
             "WordList":"./valid-wordle-words.json",
-            "LetterScoreAlgorithm":"STATIC_LINEAR_FULL_LANGUAGE"
+            "LetterScoreAlgorithm":"DYNAMIC_PROPORTINAL_WORDLE_LIST"
         },
         "automator": {
             "URL":"https://www.nytimes.com/games/wordle/index.html",
@@ -17,10 +17,11 @@
             "DialogWaitTime": 160,
             "InteractionOptions":{"delay": 160},
             "PlayButton":"button[data-testid='Play']",
-            "CloseDialog":"dialog[aria-label='help Modal'] > div > div > button > svg",
+            "CloseDialog":"dialog[aria-label='help Modal'] button > svg",
             "MainBoard":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(5) > div:nth-child(1)[data-state='empty']:not([data-state='tbd'])",
             "NthRowLastLetter":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div:nth-child(5) > div:nth-child(1)[data-animation='idle']:not([data-state='tbd']):not([data-state='empty'])",
             "NthRowAllLetters":"#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div > div",
+            "NthRowNthLetterState": "#wordle-app-game > div:nth-child(1) > div > div:nth-child(%d) > div:nth-child(%d) > div:nth-child(1)[data-state='%s']",
             "ShareButton":"#share-button",
             "LetterStateAttribute":"data-state",
             "OutputPath":"./results/wordle-%s-%s-%s-%s-%s"

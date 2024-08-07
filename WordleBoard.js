@@ -178,7 +178,7 @@ module.exports = class WordleBoard {
             this.log.debug(this.words)
         }
         this.calcLetterScores()
-        this.words - this.words.sort((a,b) => this.rankWord(a,b))
+        this.words = this.words.sort((a,b) => this.rankWord(a,b))
     }
 
     /**
