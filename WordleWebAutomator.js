@@ -42,7 +42,9 @@ module.exports = class WordleWebAutomator {
             this.page.waitForNavigation(),
             await this.page.goto(this.config.URL, this.config.GotoOptions)
         ])
-        await this.page.click(this.config.PlayButton, this.config.InteractionOptions)
+        //await this.page.click(this.config.PlayButton, this.config.InteractionOptions)
+        await this.page.focus(this.config.PlayButton, this.config.InteractionOptions)
+        await this.page.keyboard.press('Enter', this.config.InteractionOptions)
         await Promise.all([
             await this.page.waitForSelector(this.config.MainBoard),
             await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
@@ -56,7 +58,7 @@ module.exports = class WordleWebAutomator {
      * @param {number} tries - The try number
      */
     async typeWord(guess, tries){
-        for(let i = 0; i < guess.length; i++){
+        for(let i = 0; guess && i < guess.length; i++){
             await this.typeLetter(guess[i], tries, i+1)
         }
         await this.page.keyboard.press('Enter', this.config.InteractionOptions) 
@@ -73,6 +75,10 @@ module.exports = class WordleWebAutomator {
         await this.page.waitForSelector(util.format(this.config.NthRowNthLetterState, tries, position, 'empty')),
         await this.page.click(this.config.MainBoard, this.config.InteractionOptions)
         await this.page.keyboard.type(letter, this.config.InteractionOptions)
+        /*await Promise.all([
+            await this.page.waitForSelector(util.format(this.config.NthRowNthLetterState, tries, position, 'tbd')),
+            await this.page.click(util.format(this.config.KeyboardButton, letter), this.config.InteractionOptions),
+        ])*/
         await this.page.waitForSelector(util.format(this.config.NthRowNthLetterState, tries, position, 'tbd'))
     }
     

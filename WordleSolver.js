@@ -69,8 +69,9 @@ module.exports = class WordleSolver {
         this.reset()
         await this.automator.open()
         for(let tries = 1; tries < 7; tries++) {
+            //TODO: Handle scenario where there is no guess to be made (undefined)
             const guess = this.solve()
-            this.log.debug(`next guess to be entered is: ${guess}`)            
+            this.log.debug(`next guess to be entered is: ${guess}`)
             await this.automator.typeWord(guess, tries) 
             const results = await this.automator.getResults(tries)
             this.check(guess, results)
