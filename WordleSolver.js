@@ -46,7 +46,7 @@ module.exports = class WordleSolver {
      * @returns {string} The next guess to be tried for the wordle
      */
     solve(){
-        return this.board.solve()[0]
+        return this.board.solve()
     }
 
     /**

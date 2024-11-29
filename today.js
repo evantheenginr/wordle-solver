@@ -14,5 +14,6 @@
 
 (async () => {
   const { Wordle } = require('.')
-  new Wordle().play()
+  await (new Wordle()).play()
+  process.exit(0)
 })()

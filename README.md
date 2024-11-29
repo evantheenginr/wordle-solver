@@ -10,7 +10,7 @@ related to Wordle released by The New York Times Company.
 
 ## How to use
 
-Developed on Node.js 18.x, NPM 8.x
+Developed on Node.js 18.x, NPM 8.x.  Be sure to start a local listener on chrome.
 
 ### Install and run
 

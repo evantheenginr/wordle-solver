@@ -15,6 +15,7 @@
 const util = require('node:util')
 const fs = require('node:fs/promises')
 const puppeteer = require('puppeteer')
+const axios = require('axios');
 
 /** 
  * @class Puppeteer Automator for the released Wordle Web Application  
@@ -36,13 +37,30 @@ module.exports = class WordleWebAutomator {
      * @async
      */
     async open(){
-        this.browser = await puppeteer.launch(this.config.LaunchOptions);
-        this.page = (await this.browser.pages())[0]
+        if(this.config.LaunchAttach){
+            const jsonVersion = await axios(this.config.AttachJsonVersionURL);
+            const browserWSEndpoint = jsonVersion.data?.webSocketDebuggerUrl;
+            this.browser = await puppeteer.connect({ browserWSEndpoint })
+            this.page = await this.browser.newPage();
+        }else{
+            this.browser = await puppeteer.launch(this.config.LaunchOptions);
+            this.page = (await this.browser.pages())[0]
+        }
+
         await Promise.all([
             this.page.waitForNavigation(),
             await this.page.goto(this.config.URL, this.config.GotoOptions)
         ])
-        //await this.page.click(this.config.PlayButton, this.config.InteractionOptions)
+
+        await this.page.evaluate(() => {
+            window.localStorage.clear();
+        })
+
+        await Promise.all([
+            this.page.waitForNavigation(),
+            await this.page.goto(this.config.URL, this.config.GotoOptions)
+        ])
+
         await this.page.focus(this.config.PlayButton, this.config.InteractionOptions)
         await this.page.keyboard.press('Enter', this.config.InteractionOptions)
         await Promise.all([
@@ -73,6 +91,7 @@ module.exports = class WordleWebAutomator {
      */
     async typeLetter(letter, tries, position){
         await this.page.waitForSelector(util.format(this.config.NthRowNthLetterState, tries, position, 'empty')),
+        await this.page.waitForTimeout(this.config.ShortWaitTime); //Unsure why we need this
         await this.page.click(this.config.MainBoard, this.config.InteractionOptions)
         await this.page.keyboard.type(letter, this.config.InteractionOptions)
         /*await Promise.all([
@@ -111,6 +130,6 @@ module.exports = class WordleWebAutomator {
         this.log.log(`saving output to ${path}`)
         fs.writeFile(path.concat(".txt"), this.share.share(win, tries, time))
         await this.page.screenshot({ path: path.concat(".png"), fullPage: true });
-        await this.browser.close()
+        await this.page.close();
     }
 }

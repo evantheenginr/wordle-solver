@@ -34,7 +34,7 @@ class Wordle {
     }
 
     async play(){
-        this.ioc.WordleSolver.play(this.ioc.WordleResult)
+        await this.ioc.WordleSolver.play(this.ioc.WordleResult)
     }
 }
 
