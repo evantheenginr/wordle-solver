@@ -83,7 +83,7 @@ module.exports = class WordleSolver {
                 this.log.log(`the wordle was ${win?"":"not "}solved`)
                 const duration = new Date().getTime() - ts
                 await this.automator.finished(win, guess, tries, Math.round(duration))
-                result.push(guess, win, tries, duration)
+                result.push(win?guess:this.automator.answer?this.automator.answer:null, win, tries, duration)
                 this.log.log(`total time: ${result.last().time}ms`)
                 break
             }

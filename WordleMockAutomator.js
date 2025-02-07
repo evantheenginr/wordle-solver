@@ -55,7 +55,8 @@ module.exports = class WordleMockAutomator {
         if(letter === this.answer[i]){
             return 'correct'
         //Only 'present' if letter is not correct and is in the answer at least once in a position that has not yet been discovered
-        }else if(this.answer.includes(letter) && [...(this.answer)].some((char, j) => letter===char?char != guess[j]:false)){
+        //specifically a second occurance that's not corret is absent
+        }else if(this.answer.includes(letter) && [...(this.answer)].some((char, j) => letter===char?char != guess[j]:false) && guess.indexOf(letter) == i){
             return 'present'
         }else{
             return 'absent'

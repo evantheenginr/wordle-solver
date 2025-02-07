@@ -68,7 +68,6 @@ module.exports = class WordleBoard {
     check(guess, results){
         //Need to check "correct" first so that absent dupplicates work correctly
         for(let i = 0; i < 5; i++){
-            const letter = this.positions.find(l => l.letter === guess[i])
             if(results[i] === "correct"){
                 this.word[i] = guess[i]
             }
@@ -76,7 +75,7 @@ module.exports = class WordleBoard {
         for(let i = 0; i < 5; i++){
             const letter = this.positions.find(l => l.letter === guess[i])
             //Handles "present" and a dupplicate letter where the additional occurance is absent
-            if(results[i] === "present" || (results[i] === "absent" && this.word.includes(guess[i]))){
+            if(results[i] === "present" || (results[i] === "absent" && (this.word.includes(guess[i]) || letter))){
                 if(letter){
                   letter.not.push(i)
                 }else{
@@ -86,6 +85,7 @@ module.exports = class WordleBoard {
                 this.positions.push({letter: guess[i], not: [0,1,2,3,4]})
             }
         }
+        
         this.words = this.words.filter((word) => this.guessWord(word))
         if(this.words.length === 0){
             this.log.debug("no words left to try")
