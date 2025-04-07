@@ -28,17 +28,29 @@ module.exports = class WordleBoard {
     constructor(config, logger) {
         this.config = config
         this.log = logger
+        this.initializeAlgorithm()
+        this.reset()
+        return this
+    }
+
+    /**
+     * Initialize the solving algorithm based on configuration
+     */
+    initializeAlgorithm() {
+        const algoConfig = {
+            ...this.config,
+            ...(this.config.algorithms?.[this.config.SolverAlgorithm] || {})
+        }
+        
         switch(this.config.SolverAlgorithm){
             case "INFORMATION_THEORY":
-                this.algo = new WordleAlgoInfoTheory(config, logger)
+                this.algo = new WordleAlgoInfoTheory(algoConfig, this.log)
                 break
             case "FREQUENCY_ANALYSIS":
             default:
                 this.log.log("Using default solver algorithm")
-                this.algo = new WordleAlgoFreqAnalysis(config, logger)
+                this.algo = new WordleAlgoFreqAnalysis(algoConfig, this.log)
         }
-        this.reset()
-        return this
     }
 
     /**

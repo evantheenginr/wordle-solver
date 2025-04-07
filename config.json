@@ -4,7 +4,8 @@
             "WordList":"./valid-wordle-words.json",
             "SolverAlgorithm":"INFORMATION_THEORY",
             "LetterScoreAlgorithm":"DYNAMIC_PROPORTINAL_WORDLE_LIST",
-            "EntropyScope":"PATTERN_LOOKAHEAD"
+            "EntropyScope":"PATTERN_LOOKAHEAD",
+            "ExpectedWinRate": 0.99
         },
         "automator": {
             "URL":"https://www.nytimes.com/games/wordle/index.html",
@@ -39,7 +40,17 @@
     },
     "test": {
         "solver": {
-            
+            "algorithms": {
+                "FREQUENCY_ANALYSIS": {
+                    "LetterScoreAlgorithm": "DYNAMIC_PROPORTINAL_WORDLE_LIST",
+                    "ExpectedWinRate": 0.9887
+                },
+                "INFORMATION_THEORY": {
+                    "EntropyScope": "PATTERN_LOOKAHEAD",
+                    "ExpectedWinRate": 0.9952
+                }
+            },
+            "ShowStats": true
         },
         "automator": {
             

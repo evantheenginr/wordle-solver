@@ -65,8 +65,10 @@ module.exports = class WordleWebAutomator {
         await this.page.keyboard.press('Enter', this.config.InteractionOptions)
         await Promise.all([
             await this.page.waitForSelector(this.config.MainBoard),
-            await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
+            await this.page.waitForSelector(this.config.CloseDialog),
+
         ])
+        await this.page.click(this.config.CloseDialog, this.config.InteractionOptions)
     }
 
     /**
