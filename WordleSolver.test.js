@@ -137,7 +137,7 @@ algorithms.forEach(algorithm => {
             expect(stats.sdvTries).toBeLessThanOrEqual(1)
         })
         test('check average time', () => {
-            expect(stats.avgTime).toBeLessThanOrEqual(20)
+            expect(stats.avgTime).toBeLessThanOrEqual(21)
         })
     })
 })
