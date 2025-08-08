@@ -60,7 +60,7 @@ algorithms.forEach(algorithm => {
             expect(result.last().tries).toBeLessThanOrEqual(4)
             expect(result.last().win).toBe(true)
         })
-        test('guess upset in 3 or less tries', async () => {
+        test('guess upset in 4 or less tries', async () => {
             const result = new WordleResult()
             await runSolverWithAlgorithm(config, result, "upset", algorithm)
             expect(result.last().word).toBe("upset")

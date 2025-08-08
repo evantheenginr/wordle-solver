@@ -4,7 +4,7 @@ Wordle is an online game © 2022 The New York Times Company in which the user
 has six guesses to discover a five letter word.
 
 The project in which this README is found is a solver algorithm for that game
-along with auotmation to apply that solver and corresponding tests. Prior to
+along with automation to apply that solver and corresponding tests. Prior to
 using this project, consult any terms of use or policies governing its use
 related to Wordle released by The New York Times Company.
 

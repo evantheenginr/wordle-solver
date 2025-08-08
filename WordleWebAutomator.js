@@ -130,7 +130,7 @@ module.exports = class WordleWebAutomator {
         const outcome = win?"win":"loss"
         const path = util.format(this.config.OutputPath, ts, outcome, tries, guess, time)
         this.log.log(`saving output to ${path}`)
-        fs.writeFile(path.concat(".txt"), this.share.share(win, tries, time))
+        await fs.writeFile(path.concat(".txt"), this.share.share(win, tries, time))
         await this.page.screenshot({ path: path.concat(".png"), fullPage: true });
         await this.page.close();
     }

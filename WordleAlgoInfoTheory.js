@@ -81,10 +81,28 @@ module.exports = class WordleAlgoInfoTheory {
     }
     
     getPattern(guess, actual) {
-        return guess.split('').map((letter, i) => 
-            actual[i] === letter ? '2' : 
-            actual.includes(letter) ? '1' : '0'
-        ).join('');
+        const pattern = Array(guess.length).fill('0')
+        const actualLetters = actual.split('')
+        const guessLetters = guess.split('')
+
+        for (let i = 0; i < guessLetters.length; i++) {
+            if (guessLetters[i] === actualLetters[i]) {
+                pattern[i] = '2'
+                actualLetters[i] = null
+                guessLetters[i] = null
+            }
+        }
+
+        for (let i = 0; i < guessLetters.length; i++) {
+            if (guessLetters[i] === null) continue
+            const index = actualLetters.indexOf(guessLetters[i])
+            if (index !== -1) {
+                pattern[i] = '1'
+                actualLetters[index] = null
+            }
+        }
+
+        return pattern.join('')
     }
 
     findBestGuessWithLookAhead(words) {
@@ -129,11 +147,11 @@ module.exports = class WordleAlgoInfoTheory {
      */
     solve(words, positions){
         if(this.config.EntropyScope == "PATTERN_LOOKAHEAD"){
-            //precompute the first word: raise
+            //precompute the first word: was raise, but slate performs better
             if(positions.length === 0 && words.includes("slate")){
                 return "slate"
             }
-            return this.findBestGuessWithLookAhead(words)
+	    return this.findBestGuessWithLookAhead(words)
         }else if(this.config.EntropyScope == "PATTERN"){
             //precompute: raise
             if(positions.length === 0 && words.includes("raise")){
